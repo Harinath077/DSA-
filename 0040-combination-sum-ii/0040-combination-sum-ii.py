@@ -1,15 +1,19 @@
 class Solution:
     def combinationSum2(self, nums: List[int], target: int) -> List[List[int]]:
-        result = set()
+        result = []
         nums.sort()
-        def helper(index, ds):
-            if( index == len(nums)):
-                if sum(ds) == target:
-                    result.add(tuple(ds.copy()))
+        def helper(index, target, ds):
+            if target == 0:
+                result.append(ds.copy())
                 return
-            ds.append(nums[index])
-            helper(index + 1, ds)
-            ds.pop()
-            helper(index + 1, ds)
-        helper(0, [])
-        return list(result)
+            for i in range(index, len(nums)):
+                if i > index and nums[i] == nums[i-1]:
+                    continue
+                if nums[i] > target:
+                    break
+                ds.append(nums[i])
+                helper(i+1, target-nums[i], ds)
+                ds.pop()
+            
+        helper(0, target, [])
+        return result
