@@ -1,13 +1,29 @@
 class Solution:
     def rearrangeArray(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        ans = [0]*n
-        posIndex , negIndex = 0,1
-        for i in range(n):
-            if nums[i] > 0:
-                ans[posIndex] = nums[i]
-                posIndex += 2
+        # Separate positive and negative numbers
+        pos = []
+        neg = []
+        
+        for num in nums:
+            if num < 0:
+                neg.append(num)
             else:
-                ans[negIndex] = nums[i]
-                negIndex += 2
-        return ans
+                pos.append(num)
+
+        # Create result array
+        res = [0] * len(nums)
+
+        # Rearranging elements: positives at even indices, negatives at odd indices
+        i = 0
+        while i < len(pos) and i < len(neg):
+            res[2 * i] = pos[i]
+            res[2 * i + 1] = neg[i]
+            i += 1
+
+        # If there are remaining elements
+        if i < len(pos):
+            res[2 * i:] = pos[i:]
+        elif i < len(neg):
+            res[2 * i:] = neg[i:]
+
+        return res
