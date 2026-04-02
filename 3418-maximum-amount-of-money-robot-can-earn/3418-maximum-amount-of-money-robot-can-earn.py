@@ -1,19 +1,40 @@
-
 class Solution:
-    def maximumAmount(self, coins: List[List[int]]) -> int:
-        m, n = len(coins), len(coins[0])
+    def maximumAmount(self, coins):
+        n, m = len(coins), len(coins[0])
 
-        dp = [[-inf] * 3 for _ in range(n+1)]
-        # initialise the first row
-        dp[1] = [0] * 3
+        dp = [[[float('-inf')] * 3 for _ in range(m)] for _ in range(n)]
 
-        for i in range(m):
-            for j in range(n):
-                x = coins[i][j]
-                up0, up1, up2 = dp[j+1]
-                left0, left1, left2 = dp[j]
-                dp[j+1][0] = max(up0, left0) + x
-                dp[j+1][1] = max(up1+x, left1+x, up0, left0) 
-                dp[j+1][2] = max(up2+x, left2+x, up1, left1) 
+        # initialize start
+        for k in range(3):
+            if coins[0][0] < 0 and k > 0:
+                dp[0][0][k] = 0
+            else:
+                dp[0][0][k] = coins[0][0]
 
-        return dp[n][2]
+        for r in range(n):
+            for c in range(m):
+                for k in range(3):
+                    if r == 0 and c == 0:
+                        continue
+
+                    val = coins[r][c]
+
+                    # from top
+                    if r > 0:
+                        # take value
+                        dp[r][c][k] = max(dp[r][c][k],
+                                          dp[r-1][c][k] + val)
+                        # neutralize
+                        if val < 0 and k > 0:
+                            dp[r][c][k] = max(dp[r][c][k],
+                                              dp[r-1][c][k-1])
+
+                    # from left
+                    if c > 0:
+                        dp[r][c][k] = max(dp[r][c][k],
+                                          dp[r][c-1][k] + val)
+                        if val < 0 and k > 0:
+                            dp[r][c][k] = max(dp[r][c][k],
+                                              dp[r][c-1][k-1])
+
+        return max(dp[n-1][m-1])
