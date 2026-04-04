@@ -1,24 +1,28 @@
+from collections import Counter,deque
 import heapq
-from collections import Counter, deque
-
 class Solution:
-    def leastInterval(self, tasks, n):
+    def leastInterval(self, tasks: List[str], n: int) -> int:
         freq = Counter(tasks)
-        max_heap = [-cnt for cnt in freq.values()]
-        heapq.heapify(max_heap)
+        maxHeap = [-cnt for cnt in freq.values()]
+        # heapifying
+        heapq.heapify( maxHeap )
 
         time = 0
-        cooldown = deque()
+        coolDown = deque()
 
-        while max_heap or cooldown:
+        while( maxHeap or coolDown ):
             time += 1
 
-            if max_heap:
-                remaining = heapq.heappop(max_heap) + 1
-                if remaining:
-                    cooldown.append((remaining, time + n))
+            if( maxHeap ):
+                remaining = 1 + heapq.heappop(maxHeap)
 
-            if cooldown and cooldown[0][1] <= time:
-                heapq.heappush(max_heap, cooldown.popleft()[0])
+                if( remaining ): # have still task to complete
+                    coolDown.append( (remaining, time + n))
+            
+            # Push back tasks whose cooldown finished
+            if( coolDown and coolDown[0][1] <= time):
+                remainingFreq, _ = coolDown.popleft()
+                heapq.heappush( maxHeap, remainingFreq )
 
         return time
+
