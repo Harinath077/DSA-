@@ -1,17 +1,26 @@
+import heapq
 class Solution:
     def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
         if len(hand) % groupSize != 0:
             return False
 
-        count = Counter(hand)       # Step 1: Count frequency of each card
-        hand.sort()                 # Step 2: Sort the hand (important for greedy)
+        freq = {}
+        for num in hand:
+            freq[num] = freq.get(num, 0) + 1
 
-        for num in hand:           # Step 3: Try to form groups
-            if count[num] > 0:
-                for i in range(num, num + groupSize):
-                    if count[i] == 0:
+        minHeap = list(freq.keys())
+        heapq.heapify(minHeap)
+
+        while minHeap:
+            first = minHeap[0]
+            for i in range(first, first + groupSize):
+                if freq.get(i, 0) == 0:
+                    return False
+                freq[i] -= 1
+
+                if freq[i] == 0:
+                    if i != minHeap[0]:
                         return False
-                    count[i] -= 1
+                    heapq.heappop(minHeap)
         return True
-
-
+    
