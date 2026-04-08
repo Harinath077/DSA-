@@ -1,8 +1,8 @@
-from functools import lru_cache
 class Solution:
     def checkValidString(self, s: str) -> bool:
         if not s:
             return False
+
         @lru_cache(None)
         def dfs(index, count):
             if(count < 0):
