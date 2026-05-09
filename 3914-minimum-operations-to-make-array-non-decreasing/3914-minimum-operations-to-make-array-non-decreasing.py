@@ -1,11 +1,12 @@
 class Solution:
-    
+
     """
-    1. find the range
-    2. find min in that range of Array 
-    3. return ans = increasing - min
-    """
-    
+   note : there is many subarray range to modify
+   s1 : find all volating indices and store
+   s2 : with that find the each indices x value to added 
+   s3 : cummulativily add that in toal variable and return 
+   """
+   
     def minOperations(self, nums: list[int]) -> int:
             
         n = len(nums)
