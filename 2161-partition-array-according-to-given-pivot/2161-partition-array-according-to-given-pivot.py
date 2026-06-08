@@ -1,25 +1,19 @@
 class Solution:
-    def pivotArray(self, nums: List[int], pivot: int) -> List[int]:
-        # brute force 
+    def pivotArray(self, nums, pivot):
+        ans = [0] * len(nums)
+        less_i = 0
+        greater_i = len(nums) - 1
 
-        if( len(nums) == 1):
-            return nums
-        
-        less = []
-        equal = []
-        greater = []
+        for i, j in zip(range(len(nums)), range(len(nums) - 1, -1, -1)):
+            if nums[i] < pivot:
+                ans[less_i] = nums[i]
+                less_i += 1
+            if nums[j] > pivot:
+                ans[greater_i] = nums[j]
+                greater_i -= 1
 
-        result = []
-        for num in nums:
-            if( num < pivot ):
-                less.append(num)
-            elif( num > pivot ):
-                greater.append(num)
-            else:
-                equal.append(num)
-        
-        result.extend(less)
-        result.extend(equal)
-        result.extend(greater)
-        
-        return result
+        while less_i <= greater_i:
+            ans[less_i] = pivot
+            less_i += 1
+
+        return ans
