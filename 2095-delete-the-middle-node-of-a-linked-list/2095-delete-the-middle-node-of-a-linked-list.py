@@ -4,26 +4,27 @@
 #         self.val = val
 #         self.next = next
 class Solution:
+    """ 
+    find the length and change the links
+    """
     def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        if head is None or head.next is None:
+        # edge case
+        if( head is None or head.next is None):
             return None
-        length = 0
+        
+        # find the middle node
         temp = head
-        while(temp is not None):
+        length = 0
+        while( temp != None):
             length += 1
             temp = temp.next
-        mid = length//2
-        temp = head
-        while(temp != None):
-            mid -= 1
-            if mid == 0:
-                del_node = temp.next
-                temp.next = temp.next.next
-                del del_node
-            temp = temp.next
-        return head
-        
-        
+        mid = length // 2
 
-        
-        
+        # delete the middle node / change the links
+        curr = head
+        while( curr != None ):
+            mid -= 1
+            if( mid == 0 ):
+                curr.next = curr.next.next
+            curr = curr.next
+        return head
