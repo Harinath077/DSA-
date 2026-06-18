@@ -3,9 +3,11 @@ BEGIN
     SET N = N-1;
   RETURN (
       # Write your MySQL query statement below.
+      SELECT(
         SELECT DISTINCT salary
         FROM employee
         ORDER BY salary DESC
         LIMIT N, 1
+        )
   );
 END
