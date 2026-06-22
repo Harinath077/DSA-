@@ -3,21 +3,13 @@ class Solution:
         freq = {}
         for ch in text:
             freq[ch] = freq.get(ch,0)+1
-            
-        instances = len(text)
-        for ch in "balloon":
-            if( ch not in freq or not (freq['l'] >= 2 and freq['o'] >= 2 ) ):
-                return 0
-            else:
-                if( ch == "l" or ch == "o" ):
-                    actualFreq = freq[ch] // 2
-                else:
-                    actualFreq = freq[ch]
-                
-                if( actualFreq < instances):
-                    instances = actualFreq
-            
-                
-            
         
-        return instances
+        return min( 
+            freq.get('b', 0),
+            freq.get('a', 0),
+            freq.get('l', 0) // 2,
+            freq.get('o', 0) // 2,
+            freq.get('n', 0)
+        )
+
+        
