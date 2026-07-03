@@ -5,28 +5,31 @@ class Solution:
 
         best = [[-1] * m for _ in range(n)]
 
-        def dfs(i, j, hp):
-            if i < 0 or i >= n or j < 0 or j >= m:
+        def dfs(i, j, health):
+
+            # base case 
+            if( i < 0 or i >= n or j < 0 or j >= m ):
                 return False
+            
+            health -= grid[i][j]
 
-            hp -= grid[i][j]
-
-            if hp <= 0:
+            if( health <= 0 ):
                 return False
-
-            if i == n - 1 and j == m - 1:
+            
+            if( i == n-1 and j == m-1 ):
                 return True
-
-            if best[i][j] >= hp:
+            
+            if( best[i][j] >= health ):
                 return False
+            
+            best[i][j] = health
 
-            best[i][j] = hp
-
-            return (
-                dfs(i + 1, j, hp) or
-                dfs(i - 1, j, hp) or
-                dfs(i, j + 1, hp) or
-                dfs(i, j - 1, hp)
+            return ( 
+                dfs(i-1, j, health) or
+                dfs(i+1, j, health) or
+                dfs(i, j-1, health) or
+                dfs(i, j+1, health)
             )
-
+        
         return dfs(0, 0, health)
+
