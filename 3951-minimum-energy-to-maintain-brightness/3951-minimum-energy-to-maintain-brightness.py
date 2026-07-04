@@ -17,15 +17,13 @@ class Solution:
 
             return new_intervals
                 
-
-      
         intervals = merge_intervals(intervals)
         
         active_time = 0
         for start, end in intervals:
             active_time += end - start + 1
 
-        minimum_bulbs = ceil( brightness / 3)
+        minimum_bulbs = (brightness + 2) // 3
 
         return minimum_bulbs * active_time
             
