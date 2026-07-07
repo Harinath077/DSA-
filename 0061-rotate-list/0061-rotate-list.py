@@ -5,29 +5,21 @@
 #         self.next = next
 class Solution:
     def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
-        def findNode(temp,k):
-            count = 1
-            while(temp != None):
-                if count == k:
-                    return temp
-                count += 1
-                temp = temp.next
-            return temp
-        
-        if head == None or k == 0:
+        if head is None or head.next is None:
             return head
-        length = 1
-        tail = head
-        while(tail.next != None):
-            length += 1
-            tail = tail.next
-        if k % length == 0:
-            return head
-        k = k % length
-        tail.next = head
-        newLast = findNode(head,length-k)
-        head = newLast.next
-        newLast.next = None
+        temp = head
+        arr = []
+        while temp:
+            arr.append(temp.val)
+            temp = temp.next
+        k = k%len(arr)
+        arr = arr[-k:] + arr[:-k]
+        temp = head
+        i = 0
+        while(temp != None):
+            temp.val = arr[i]
+            temp = temp.next
+            i += 1
         return head
 
                 
