@@ -24,6 +24,6 @@ class Solution:
         res = 0
 
         for i in range(n // 2):
-            res += gcd(prefix_gcd[i], prefix_gcd[n - 1 - i])
+            res += gcd(prefix_gcd[i], prefix_gcd[n - i - 1])
 
         return res
