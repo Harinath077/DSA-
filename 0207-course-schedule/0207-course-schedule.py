@@ -1,31 +1,36 @@
 class Solution:
     def isCycle(self, V, adjList):
+        
         def dfs(node):
+
             visited[node] = True
             pathVisited[node] = True
-            # travesre using adj list
-            for neighbor in adjList[node]:
-                if not visited[neighbor]:
-                    if dfs(neighbor):
+
+            for neighbour in adjList[node]:
+                if not visited[neighbour]:
+                    if dfs(neighbour):
                         return True
-                elif pathVisited[neighbor]:
+                elif pathVisited[neighbour] == True:
                     return True
-                
-            # backTracking
+            
+            # backtracking
             pathVisited[node] = False
             return False
-        
+
         visited = [False] * V
         pathVisited = [False] * V
-        # component vise Traversal
-        for i in range(V):
-            if not visited[i]:
-                if dfs(i):
+
+        for node in range(V):
+            if not visited[node]:
+                if dfs(node):
                     return True
         return False
+        
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        # construct adjList
         adjList = [[] for _ in range(numCourses)]
+
+        # building the adjList
         for u, v in prerequisites:
             adjList[v].append(u)
+        
         return not self.isCycle(numCourses, adjList)
