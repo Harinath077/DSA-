@@ -10,11 +10,12 @@ class Solution:
             if index >= len(freqs):
                 return 0
 
-            cost = 0
-            for i in range(index, min(index + 8, len(freqs))):
-                cost += freqs[i] * level
+            # main case ---> increase the level
+            if index > 0 and index % 8 == 0:
+                level += 1
+
             
-            return cost + dfs(index + 8, level + 1)
+            return freqs[index] * level + dfs(index + 1, level) 
 
         n = len(word)
         freq = {}
