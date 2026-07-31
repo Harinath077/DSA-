@@ -1,28 +1,9 @@
 class Solution:
-    """  
-    here frequency needed
-    freq[char] * level
-
-    """
     def minimumPushes(self, word: str) -> int:
-        def dfs(index, level):
-            # base case
-            if index >= len(freqs):
-                return 0
+        counts = [word.count(chr(ord('a') + i)) for i in range(26)] 
+        arr = sorted(counts, reverse=True)
+        total = 0
+        for group, i in enumerate(range(0, len(arr), 8), start=1):
+            total += sum(arr[i:i+8]) * group
 
-            # main case ---> increase the level
-            if index > 0 and index % 8 == 0:
-                level += 1
-
-            
-            return freqs[index] * level + dfs(index + 1, level) 
-
-        n = len(word)
-        freq = {}
-        
-        for char in word:
-            freq[char] = freq.get(char, 0)+1
-        
-        freqs = sorted( freq.values(), reverse = True)
-
-        return dfs(0, 1)
+        return total
