@@ -1,30 +1,27 @@
-from typing import List
+from functools import cache
 
 class Solution:
-    def rob(self, houses: List[int]) -> int:
-        def max_value(arr: List[int]) -> int:
-            if not arr:
-                return 0
-            if len(arr) == 1:
-                return arr[0]
-            
-            prev2 = arr[0]
-            prev1 = max(arr[0], arr[1])
-            
-            for i in range(2, len(arr)):
-                curr = max(arr[i] + prev2, prev1)
-                prev2, prev1 = prev1, curr
-            
-            return prev1
+    def rob(self, nums: List[int]) -> int:
 
-        n = len(houses)
-        if n == 0:
-            return 0
-        if n == 1:
-            return houses[0]
+        def solve(arr):
+            @cache
+            def dfs(i):
+                if i < 0:
+                    return 0
+                if i == 0:
+                    return arr[0]
 
-        # Exclude first house or last house
-        exclude_first = houses[1:]
-        exclude_last = houses[:-1]
-        
-        return max(max_value(exclude_first), max_value(exclude_last))
+                return max(
+                    dfs(i - 1),
+                    arr[i] + dfs(i - 2)
+                )
+
+            return dfs(len(arr) - 1)
+
+        if len(nums) == 1:
+            return nums[0]
+
+        return max(
+            solve(nums[:-1]),
+            solve(nums[1:])
+        )
