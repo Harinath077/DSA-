@@ -1,24 +1,33 @@
+from functools import cache
 class Solution:
     def minFallingPathSum(self, matrix: List[List[int]]) -> int:
 
-        n = len(matrix)
+        @cache
+        def dfs(i, j):
+            # base cases
+            if j < 0 or j >= n:
+                return float('inf')
 
-        dp = [[0] * n for _ in range(n)]
+            if i == n-1:
+                return matrix[i][j]
 
-        # base case
-        for j in range(n):
-            dp[n-1][j] = matrix[n-1][j]
+            if memo[i][j] != -1:
+                return memo[i][j]
+
+            below = matrix[i][j] + dfs(i + 1, j)
+            dRight = matrix[i][j] + dfs(i + 1, j + 1)
+            dLeft = matrix[i][j] + dfs(i + 1, j - 1)
+
+            memo[i][j] = min( below, dRight, dLeft )
+
+            return memo[i][j]
         
-        for i in range(n - 2, -1, -1):
-            for j in range(n):
-                below = matrix[i][j] + dp[i + 1][j]
-                dRight = matrix[i][j] + dp[i + 1][j + 1] if j < n-1 else float('inf')
-                dLeft = matrix[i][j] + dp[i + 1][j - 1] if j > 0 else float('inf')
+        n = len(matrix)
+        min_ = float('inf')
+        memo = [[-1] * n for _ in range(n)]
 
-                dp[i][j] = min(below, dRight, dLeft)
-
-        return min(dp[0])
-
-
-
+        for j in range(n):
+            min_ = min( min_, dfs(0, j))
+        
+        return min_
 
