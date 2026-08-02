@@ -1,30 +1,19 @@
 from functools import cache
+
 class Solution:
     def predictTheWinner(self, nums: List[int]) -> bool:
         
         @cache
-        def helper(s, e, turn, p1Score, p2Score ):
+        def dfs(left, right):
 
             # base case
-            if s > e:
-                return p1Score >= p2Score
-
-            # player
-            if turn == 0:
-                left = p1Score + nums[s]
-                right = p1Score + nums[e]
-                
-                return helper(s+1, e, 1, left, p2Score) or helper(s, e-1, 1, right, p2Score)
+            if left == right:
+                return nums[left]
             
-            if turn == 1:
-                left = p2Score + nums[s]
-                right = p2Score + nums[e]
-                
-                return helper(s+1, e, 0, p1Score, left) and helper(s, e-1, 0, p1Score, right)
-            
-                            
+            pickLeft = nums[left] - dfs(left + 1, right)
+            pickRight = nums[right] - dfs(left, right -1)
 
-        
-        n = len(nums)
+            return max(pickLeft, pickRight)
 
-        return helper(0, n-1, 0, 0, 0)
+         # If Player 1's advantage is non-negative, he wins (or ties)
+        return dfs(0, len(nums) - 1) >= 0
