@@ -2,21 +2,24 @@ class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
     
         n = len(coins)
-        dp = [[0] * (amount + 1) for _ in range(n)]
+        prev = [0] * (amount + 1)
 
         # base case
         for target in range(amount + 1):
             if target % coins[0] == 0:
-                dp[0][target] = 1
+                prev[target] = 1
         
         for index in range(1, n):
+            curr = [0] * (amount + 1)
             for target in range(amount + 1):
 
-                notTake = dp[index - 1][target]
+                notTake = prev[target]
                 take = 0
                 if coins[index] <= target:
-                    take = dp[index][target - coins[index]]
+                    take = curr[target - coins[index]]
                 
-                dp[index][target] = take + notTake
+                curr[target] = take + notTake
+            
+            prev = curr
 
-        return dp[n-1][amount]
+        return prev[amount]
