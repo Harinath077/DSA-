@@ -1,12 +1,21 @@
 class Solution:
     def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+        # cyclic sort
         n = len(nums)
-        mapp = {}
-        result = []
+        i = 0
+        while i < n:
+
+            correctIndex = nums[i]-1
+
+            if nums[i] <= n and nums[i] != nums[correctIndex]:
+                nums[i], nums[correctIndex] = nums[correctIndex], nums[i]
+            else:
+                i += 1
+        print(nums)
+        # scan to find the missing value
+        res = []
         for i in range(n):
-            mapp[nums[i]] = mapp.get(nums[i], 0) + 1
+            if nums[i]-1 != i:
+                res.append(i+1)
         
-        for i in range(1, n + 1):
-            if mapp.get(i, 0) == 0:
-                result.append(i)
-        return result
+        return res
