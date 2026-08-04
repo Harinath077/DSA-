@@ -1,29 +1,32 @@
 class Solution:
-    """ 
-    prefix = [1, 2, 6, 24]
-    suffic = [24, 24, 12,4]
-    """
     def productExceptSelf(self, nums: List[int]) -> List[int]:
+        zeroCnt = nums.count(0)
         n = len(nums)
 
-        # prefixProduct
-        prefix = [1] * n
-        prefix[0] = nums[0]
-
-        for i in range(1, n):
-            prefix[i] = prefix[i-1] * nums[i]
+        # case 1 : more than 1 zeros
+        if zeroCnt > 1:
+            return [0] * n
         
-        # suffixProdcut
-        suffix = [1] * n
-        suffix[-1] = nums[-1]
-
-        for i in range(n-2, -1, -1):
-            suffix[i] = suffix[i+1] * nums[i]
+        # find continuous product
+        product = 1
+        for num in nums:
+            if num == 0:
+                continue
+            product *= num
         
-        ans = [1] * n
-        for i in range(n):
-            a = prefix[i-1] if i > 0 else 1
-            b = suffix[i+1] if i < n - 1 else 1
-            ans[i] = a * b
+        ans = []
+
+        # case 2 : only one zero 
+        if zeroCnt == 1:
+            for num in nums:
+                if num == 0:
+                    ans.append(product)
+                else:
+                    ans.append(0)
+        else:
+        # case 3 : no zero --> stright forward
+            for num in nums:
+                ans.append( product // num)
         
         return ans
+
