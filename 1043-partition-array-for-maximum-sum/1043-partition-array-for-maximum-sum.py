@@ -1,29 +1,31 @@
 class Solution:
     def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
         
-        def helper(i): # return the maxSum from i to n-1
+        #  dp[i] = answer for the entire suffix arr[i...n-1]
+        n = len(arr)
+        dp = [0] * (n+1)
 
-            # base case 
-            if i == n:
-                return 0
-            
-            if memo[i] != -1:
-                return memo[i]
+        # base case 
+        dp[n] = 0
 
-            maxSum = float('-inf')
+        for i in range(n-1, -1, -1):
+            maxElement = float('-inf')
             maxAns = float('-inf')
             length = 0
 
             for j in range(i, min(i + k, n)):
                 length += 1
-                maxSum = max( arr[j], maxSum)
-                totalSum = maxSum * length + helper(j + 1)
+
+                maxElement = max( arr[j], maxElement)
+
+                totalSum = maxElement * length + dp[j + 1]
                 maxAns = max( totalSum, maxAns)
             
-            memo[i] = maxAns
+            dp[i] = maxAns
 
-            return memo[i]
+    
+        return dp[0]
+          
+            
         
-        n = len(arr)
-        memo = [-1] * n
-        return helper(0)
+        
