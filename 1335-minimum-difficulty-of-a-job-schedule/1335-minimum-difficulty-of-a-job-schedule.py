@@ -17,10 +17,10 @@ class Solution:
         for index in range(n-1, -1, -1):
             max_ = max( max_, jobDifficulty[index])
             dp[index][1] = max_
-
-        for index in range( n-1, -1, -1):
-            for balanceCuts in range(2, d+1):
-
+        
+        for balanceCuts in range(2, d+1):
+            for index in range( n-1, -1, -1):
+                
                 maxElement = -1
                 min_ = float('inf')
 
