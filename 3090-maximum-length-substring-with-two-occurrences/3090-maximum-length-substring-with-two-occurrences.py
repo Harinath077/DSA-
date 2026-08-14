@@ -25,6 +25,7 @@ class Solution:
             
             if mapp[s[right]] <= 2:
                 maxLen = max( maxLen, right - left + 1)
+                
             right += 1
         return maxLen
 
