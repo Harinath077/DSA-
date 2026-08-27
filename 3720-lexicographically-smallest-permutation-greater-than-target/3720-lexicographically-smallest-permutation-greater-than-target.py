@@ -1,49 +1,55 @@
 class Solution:
+    def lexGreaterPermutation(self, s: str, target: str) -> str:
+        
+        n = len(s)
 
-  def lexGreaterPermutation(self, s: str, t: str) -> str:
-    n = len(s)
-    if len(t) != n:
-      return ""
+        # count frequency
 
-    # counts[c] represents (count in s) - (count in prefix of t)
-    counts = [0] * 26
-    for c in s:
-      counts[ord(c) - ord("a")] += 1
-    for c in t:
-      counts[ord(c) - ord("a")] -= 1
+        freq = [0] * 26
+        for ch in s:
+            freq[ord(ch) - ord('a')] += 1
+        
+        # Try to match char left -- right
 
-    # Check if current counts contain any negative frequency
-    def has_negative() -> bool:
-      return any(c < 0 for c in counts)
+        match_ = 0
 
-    # Try matching prefix up to index i-1, and placing a strictly greater char at index i
-    for i in range(n - 1, -1, -1):
-      # Reclaim character t[i]
-      counts[ord(t[i]) - ord("a")] += 1
+        while match_ < n:
+            x = ord(target[match_]) - ord('a')
 
-      if has_negative():
-        continue
+            if freq[x] == 0:
+                break
+            freq[x] -= 1
+            match_ += 1
+        
+        # Try positions from right to left 
 
-      # Find the smallest available character strictly greater than t[i]
-      t_val = ord(t[i]) - ord("a")
-      best_j = -1
-      for j in range(t_val + 1, 26):
-        if counts[j] > 0:
-          best_j = j
-          break
+        for i in range(match_, -1, -1):
 
-      if best_j != -1:
-        # Construct the result:
-        # 1. Matching prefix t[0...i-1]
-        # 2. Chosen character best_j
-        # 3. Remaining characters sorted in ascending order
-        ans = [t[:i], chr(ord("a") + best_j)]
-        counts[best_j] -= 1
+            if i < match_:
+                x = ord(target[i]) - ord('a')
+                freq[x] += 1
+            
+            if i < n:
 
-        for c_idx in range(26):
-          if counts[c_idx] > 0:
-            ans.append(chr(ord("a") + c_idx) * counts[c_idx])
+                # find the slightly grater one 
 
-        return "".join(ans)
+                x = ord(target[i]) - ord('a')
 
-    return ""
+                for c in range(x + 1, 26):
+
+                    if freq[c] > 0:
+                        freq[c] -= 1
+                    
+                        # prefix + chosen larger charcter
+                        ans = target[:i] + chr( ord('a') + c)
+
+                        # add remaing chars in acending order ( this will not affect the solution )
+
+                        for j in range(26):
+                            ans += chr( ord('a') + j) * freq[j]
+                        return ans
+        return ""
+                
+
+            
+        
