@@ -3,7 +3,7 @@ class Solution:
         
         five = 0
         ten = 0
-        twenty = 0
+        
 
         for coin in bills:
 
@@ -19,7 +19,7 @@ class Solution:
                 ten += 1
             
             else:
-                twenty += 1
+                
                 if ten > 0 and five > 0:
                     five -= 1
                     ten -= 1
