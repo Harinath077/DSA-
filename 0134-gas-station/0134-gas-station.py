@@ -7,9 +7,10 @@ class Solution:
     """
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
 
+        # If total resources are less than total required resources, no starting point can solve the problem.
         if sum(gas) < sum(cost):
             return -1
-            
+
         n = len(gas)
         currGas = 0
         start = 0
