@@ -5,16 +5,11 @@ class Solution:
         minIndex = nums.index(min(nums))
         maxIndex = nums.index(max(nums))
 
-        # from front side
-        front = max(minIndex, maxIndex) + 1
+        left = min(minIndex, maxIndex)
+        right = max(minIndex, maxIndex)
 
-        # form back side
-        back = n - min(minIndex, maxIndex)
-
-        # from both side
-        both = min(
-            (minIndex + 1) + (n - maxIndex),
-            (maxIndex + 1) + (n - minIndex)
+        return min(
+            right + 1,                 # front
+            n - left,                  # back
+            left + 1 + n - right       # both
         )
-
-        return min(front, back, both)
