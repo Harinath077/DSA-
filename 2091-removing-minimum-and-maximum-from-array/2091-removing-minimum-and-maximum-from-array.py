@@ -27,30 +27,18 @@ class Solution:
         minIndex = nums.index(min_)
         maxIndex = nums.index(max_)
 
-        # --------------------------------
         # 1. Delete only from FRONT
-        # --------------------------------
-
         cnt1 = search(0, n, min_)
         cnt2 = search(0, n, max_)
-
-        # Need to delete until the farther element
         delt1 = max(cnt1, cnt2)
 
-        # --------------------------------
         # 2. Delete only from BACK
-        # --------------------------------
-
         cntB1 = searchB(n - 1, -1, min_)
         cntB2 = searchB(n - 1, -1, max_)
-
-        # Need to delete until the farther element
         delt2 = max(cntB1, cntB2)
 
-        # --------------------------------
+        
         # 3. Delete from FRONT and BACK
-        # --------------------------------
-
         # Option A:
         # min from front + max from back
         option1 = (
@@ -67,8 +55,5 @@ class Solution:
 
         delt3 = min(option1, option2)
 
-        # --------------------------------
-        # Return minimum of all strategies
-        # --------------------------------
 
         return min(delt1, delt2, delt3)
