@@ -1,14 +1,19 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        def dfs(r, c):
+        def bfs(r, c):
+            queue = deque()
+            queue.append( (r, c) )
             visited[r][c] = True
+            while queue:
+                x, y = queue.popleft()
+                for dr, dc in directions:
+                    nr = dr + x
+                    nc = dc + y
 
-            for dr, dc in directions:
-                nr = dr + r
-                nc = dc + c
-
-                if 0 <= nr < n and 0 <= nc < m and visited[nr][nc] == False and grid[nr][nc] == '1':
-                    dfs(nr, nc)
+                    if 0 <= nr < n and 0 <= nc < m and visited[nr][nc] == False and grid[nr][nc] == '1':
+                        visited[nr][nc] = True
+                        queue.append( (nr, nc) )
+                        
 
         n = len(grid)
         m = len(grid[0])
@@ -20,6 +25,6 @@ class Solution:
             for c in range(m):
                 if visited[r][c] == False and grid[r][c] == '1':
                     islands += 1
-                    dfs(r, c)
+                    bfs(r, c)
         
         return islands
