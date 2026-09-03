@@ -1,27 +1,22 @@
-# Using Tabulation
 class Solution:
-    def rob(self, arr: List[int]) -> int:
-        # edge case
-        if not arr: 
-            return 0
+    def rob(self, nums: List[int]) -> int:
+        
+        n = len(nums)
 
-        if len(arr) == 1:
-                return arr[0]
-                
-        n = len(arr)
-        index = 0
+        # edge case 
+        if n <= 1:
+            return max(nums)   
+             
+        dp = [-1] * n
 
-        # initialization
-        prev2 = arr[0]
-        prev1 = max(arr[0], arr[1])
-        for i in range(2, n):
-            take = arr[i] + prev2
-            notTake = 0 + prev1
-            curr = max(take, notTake)
+        # base case 
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
 
-            prev2 = prev1
-            prev1 = curr
+        for index in range(2, n):
+            take = nums[index] + dp[index - 2]
+            notTake = dp[index - 1]
 
-        return prev1
-
-
+            dp[index] = max(take, notTake)
+        
+        return dp[n-1]
