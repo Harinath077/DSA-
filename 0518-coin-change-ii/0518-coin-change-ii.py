@@ -1,25 +1,42 @@
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
-    
-        n = len(coins)
-        prev = [0] * (amount + 1)
+        
+        def dfs(index, target):
+            
+            # base case
+            if index == 0:
+                if target % coins[0] == 0:
+                    return 1
+                return 0
+            
+            if memo[index][target] != -1:
+                return memo[index][target]
 
-        # base case
+            notTake = dfs(index-1, target)
+            take = 0
+            if coins[index] <= target:
+                take = dfs(index, target - coins[index])
+            
+            memo[index][target] = take + notTake
+            return memo[index][target]
+
+        n = len(coins)
+        dp = [[0] * (amount + 1) for _ in range(n) ]
+        
+        # base case 
+        # for one coins[0]
+
         for target in range(amount + 1):
             if target % coins[0] == 0:
-                prev[target] = 1
+                dp[0][target] = 1
         
         for index in range(1, n):
-            curr = [0] * (amount + 1)
             for target in range(amount + 1):
-
-                notTake = prev[target]
+                notTake = dp[index-1][target] 
                 take = 0
                 if coins[index] <= target:
-                    take = curr[target - coins[index]]
+                    take = dp[index][target - coins[index]]
                 
-                curr[target] = take + notTake
-            
-            prev = curr
-
-        return prev[amount]
+                dp[index][target] = take + notTake
+                
+        return dp[n-1][amount]
