@@ -11,7 +11,7 @@ class Solution:
                     currSum  = num
                 else:
                     currSum += num
-            return subarrays
+            return subarrays <= k
 
         low = max(nums)
         high = sum(nums)
@@ -21,9 +21,10 @@ class Solution:
 
             mid = low + (high - low) // 2
 
-            if subarrayCount(mid) <= k:
+            if subarrayCount(mid):
                 ans = mid
                 high = mid - 1
             else:
                 low = mid + 1
-        return ans
+                
+        return low
