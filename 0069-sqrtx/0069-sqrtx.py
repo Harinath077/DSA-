@@ -1,16 +1,12 @@
 class Solution:
     def mySqrt(self, x: int) -> int:
-        if x < 1:
-            return 0
-        low = 0
-        high = x 
-        ans = -1
-        while low <= high:
-            mid = low + (high - low) // 2
-            val = mid * mid
-            if val > x:
-                high = mid - 1
+        # linear search
+
+        ans = 0
+        for num in range(1, x+1):
+            val = num * num
+            if val <= x:
+                ans = num
             else:
-                ans = mid 
-                low = mid + 1
+                break
         return ans
