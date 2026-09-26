@@ -10,7 +10,7 @@ class Solution:
             return n-1
         
         low = 0
-        high = n-1
+        high = n-2
 
         while low <= high:
 
