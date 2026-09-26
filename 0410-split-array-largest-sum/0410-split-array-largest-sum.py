@@ -1,7 +1,7 @@
 class Solution:
     def splitArray(self, nums: list[int], k: int) -> int:
         
-        def subarrayCount(sumLimit):
+        def canSplit(sumLimit):
             currSum = 0
             subarrays = 1
 
@@ -15,16 +15,14 @@ class Solution:
 
         low = max(nums)
         high = sum(nums)
-        ans = -1
 
         while low <= high:
 
             mid = low + (high - low) // 2
 
-            if subarrayCount(mid):
-                ans = mid
+            if canSplit(mid):
                 high = mid - 1
             else:
                 low = mid + 1
-                
+
         return low
