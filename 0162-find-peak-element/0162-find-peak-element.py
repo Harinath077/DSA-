@@ -9,7 +9,7 @@ class Solution:
         if nums[-1] > nums[-2]:
             return n-1
         
-        low = 0
+        low = 1
         high = n-2
 
         while low <= high:
@@ -28,5 +28,5 @@ class Solution:
             else:
                 # edge case ---> [4, 5, 1, 6, 2]
                 #                    ^     ^
-                low = mid + 1
+                high = mid - 1
         
