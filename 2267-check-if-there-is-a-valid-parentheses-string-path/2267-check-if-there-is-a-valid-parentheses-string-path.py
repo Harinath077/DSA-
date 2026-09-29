@@ -1,38 +1,29 @@
+from functools import cache
+
 class Solution:
     def hasValidPath(self, grid: list[list[str]]) -> bool:
-        
-        def dfs(row, col, count):
-
-            if row >= n or col >= m:
-                return False
-
-            if grid[row][col] == '(':
-                    count += 1
-            elif grid[row][col] == ')':
-                count -= 1
-
-            if count < 0:
-                return False
-
-            if row == n-1 and col == m-1:
-                if count == 0:
-                    return True
-                else:
-                    return False
-            
-            if dp[row][col][count] != -1:
-                return dp[row][col][count]
-
-            down = dfs(row, col + 1, count)
-            right = dfs(row + 1, col, count)
-
-            dp[row][col][count] = down or right
-            return dp[row][col][count]
-        
         n = len(grid)
         m = len(grid[0])
-        countLen = n + m
+        
+        if (n + m - 1) % 2 != 0 or grid[0][0] == ')' or grid[n-1][m-1] == '(':
+            return False
 
-        dp = [[[-1] * countLen for _ in range(m+1)] for _ in range(n+1)]
-
+        @cache
+        def dfs(row, col, count):
+            if row >= n or col >= m:
+                return False
+            
+            if grid[row][col] == '(':
+                count += 1
+            else:
+                count -= 1
+            
+            if count < 0:
+                return False
+            
+            if row == n - 1 and col == m - 1:
+                return count == 0
+            
+            return dfs(row + 1, col, count) or dfs(row, col + 1, count)
+        
         return dfs(0, 0, 0)
