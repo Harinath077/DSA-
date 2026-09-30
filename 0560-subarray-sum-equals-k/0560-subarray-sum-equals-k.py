@@ -1,19 +1,20 @@
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
         
-        freq = {0:1} # {prefixSum : count}
+        mapp = {0:1} # { prefixSum, count}
+
         prefixSum = 0
         count = 0
 
         for num in nums:
-
             prefixSum += num
-
-            if prefixSum - k in freq:
-                count += freq[prefixSum - k]
             
-            if prefixSum not in freq:
-                freq[prefixSum] = 1
+            if prefixSum - k in mapp:
+                count += mapp[prefixSum - k]
+
+            if prefixSum not in mapp:
+                mapp[prefixSum] = 1
             else:
-                freq[prefixSum] += 1
+                mapp[prefixSum] += 1
+
         return count
