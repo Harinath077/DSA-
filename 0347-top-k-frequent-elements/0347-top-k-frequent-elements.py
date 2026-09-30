@@ -1,19 +1,20 @@
 class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    def topKFrequent(self, nums: list[int], k: int) -> list[int]:
+        # maxHeap logic
+
         freq = {}
-        max_heap = []
-        ans = []
         for num in nums:
-            if num not in freq:
-                freq[num] = 0
-            freq[num] += 1
-
-        for key, val in freq.items():
-            heapq.heappush(max_heap, (-val, key))
+            freq[num] = freq.get(num, 0) + 1
         
+        maxHeap = []
+        for key, value in freq.items():
+            heapq.heappush( maxHeap, (-value, key))
+        
+        res = []
         for _ in range(k):
-            ans.append( heapq.heappop(max_heap)[1])
+            res.append( maxHeap[0][1])
+            heapq.heappop(maxHeap)
         
-        return ans
+        return res
 
-
+        
