@@ -1,10 +1,10 @@
 class Solution:
     def containsDuplicate(self, nums: list[int]) -> bool:
         
-        freq = {}
+        seen = set()
 
         for num in nums:
-            if num in freq:
+            if num in seen:
                 return True
-            freq[num] = freq.get(num, 0) + 1
+            seen.add(num)
         return False
