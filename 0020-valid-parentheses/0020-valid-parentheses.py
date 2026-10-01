@@ -1,9 +1,10 @@
 class Solution:
+
     def isValid(self, s: str) -> bool:
         # edge case 
         if len(s) == 1:
             return False
-        mapping = {')':'(', ']':'[','}':'{'}
+        mapping = {')':'(', ']':'[', '}':'{'}
         stack = []
         
         for char in s:
@@ -11,9 +12,7 @@ class Solution:
             if char in mapping.values():
                 stack.append(char)
             else: # opening para
-                if stack and stack[-1] != mapping[char]:
-                    return False
-                elif stack:
+                if stack and stack[-1] == mapping[char]:
                     stack.pop()
                 else:
                     return False
