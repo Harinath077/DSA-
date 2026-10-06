@@ -6,21 +6,17 @@
 #         self.right = right
 class Solution:
     def findBottomLeftValue(self, root: TreeNode | None) -> int:
-        # level order traversal
+        def dfs(node, depth):
+            if not node:
+                return 
+            if depth > self.maxDepth:
+                self.maxDepth = depth
+                self.ans = node.val
+            
+            dfs(node.left, depth + 1)
+            dfs(node.right, depth + 1)
 
-        queue = deque([root])
-        res = []
-        while queue:
-            size = len(queue)
-            level = []
-
-            for _ in range(size):
-                node = queue.popleft()
-                level.append( node.val )
-                if node.left:
-                    queue.append( (node.left) )
-                if node.right:
-                    queue.append( (node.right) )
-            res.append(level)
-        
-        return res[-1][0]
+        self.maxDepth = -1
+        self.ans = 0
+        dfs(root, 0)
+        return self.ans
