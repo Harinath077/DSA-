@@ -7,37 +7,20 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        def pathFinding(node, target):
-           
-            def dfs(node):
-                if not node:
-                    return False
-                path.append(node)
-                if node == target:
-                    return True
-                if dfs(node.left) or dfs(node.right):
-                    return True
-                # backtrack
-                path.pop()
-                return False
-
-            path = []
-            dfs(node)
-            return path
-
-        pathP = pathFinding(root, p)
-        pathQ = pathFinding(root, q)
         
-        # debuggin 
-        print([node.val for node in pathP])
-        print([node.val for node in pathQ])
+        # base case
+        if not root or root == p or root == q:
+            return root
+            
+        leftLCA = self.lowestCommonAncestor(root.left, p, q)
+        rightLCA = self.lowestCommonAncestor(root.right, p, q)
 
-        # traversal and find the LCA
-        i = 0
-        while i < len(pathP) and \
-            i < len(pathQ) and \
-            pathP[i] == pathQ[i]:
-            i += 1
-        return pathP[i-1]
-
+        # if both exisit found LCA 
+        if leftLCA and rightLCA:
+            return root
+        else: # if only node exisits --> means simply pass upwards
+            if not leftLCA:
+                return rightLCA
+            else:
+                return leftLCA
         
