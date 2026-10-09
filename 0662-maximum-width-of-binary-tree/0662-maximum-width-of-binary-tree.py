@@ -17,10 +17,12 @@ class Solution:
             first = 0
             last = 0
             size = len(queue)
+            minIdx = queue[0][1]
 
             for i in range(size):
                 node, index = queue.popleft()
-
+                index -= minIdx
+                
                 if i == 0:
                     first = index
                 elif i == size - 1:
