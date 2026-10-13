@@ -7,17 +7,11 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return
         
-        if not root or root == p or root == q:
-            return root
-        
-        leftLCA = self.lowestCommonAncestor(root.left, p, q)
-        rightLCA = self.lowestCommonAncestor(root.right, p, q)
-
-        if leftLCA and rightLCA:
-            return root
-        
-        if not leftLCA:
-            return rightLCA
-        else:
-            return leftLCA
+        if p.val < root.val and q.val < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+        if p.val > root.val and q.val > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        return root
